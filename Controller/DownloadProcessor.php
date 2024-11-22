@@ -17,6 +17,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Filesystem\Io\File;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Class DownloadProcessor
@@ -60,21 +61,21 @@ class DownloadProcessor
      * @return void
      * @throws FileSystemException
      */
-    public function processDownload(AttachmentInterface $attachment): void
+    public function processDownload(AttachmentInterface $attachment): ResponseInterface
     {
         try {
             $name = basename($this->downloadResourceResolver->resolveResource($attachment));
-            $this->fileFactory->create(
+            return $this->fileFactory->create(
                 $name,
                 [
-                    'type' => 'string',
-                    'value' => $this->readFile($attachment),
-                    'rm' => true
+                    "type" => "string",
+                    "value" => $this->readFile($attachment),
+                    "rm" => true,
                 ],
                 DirectoryList::TMP
             );
         } catch (Exception $exception) {
-            throw new FileSystemException(__('File could not be downloaded'));
+            throw new FileSystemException(__("File could not be downloaded"));
         }
     }
 
@@ -86,8 +87,8 @@ class DownloadProcessor
     private function readFile(AttachmentInterface $attachment): string
     {
         $fileContent = $this->file->read($this->downloadResourceResolver->resolveResource($attachment));
-        if ($fileContent === false ) {
-            throw new FileSystemException(__('File could not be read'));
+        if ($fileContent === false) {
+            throw new FileSystemException(__("File could not be read"));
         }
 
         return $fileContent;

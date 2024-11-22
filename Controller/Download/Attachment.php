@@ -57,15 +57,14 @@ class Attachment extends Action
      */
     public function execute(): ResponseInterface
     {
-        $attachmentId = (int) $this->getRequest()->getParam('id', 0);
+        $attachmentId = (int) $this->getRequest()->getParam("id", 0);
         $attachment = $this->loadAttachmentById($attachmentId);
 
         if ($attachment instanceof AttachmentInterface) {
             try {
-                $this->downloadProcessor->processDownload($attachment);
-                return $this->_response;
+                return $this->downloadProcessor->processDownload($attachment);
             } catch (FileSystemException $exception) {
-                $this->messageManager->addErrorMessage(__('Sorry, there was an error getting requested content.'));
+                $this->messageManager->addErrorMessage(__("Sorry, there was an error getting requested content."));
             }
         }
 
@@ -82,7 +81,7 @@ class Attachment extends Action
         try {
             return $this->attachmentRepository->getById($id);
         } catch (NoSuchEntityException $e) {
-            $this->messageManager->addErrorMessage(__('Sorry, there was an error getting requested content.'));
+            $this->messageManager->addErrorMessage(__("Sorry, there was an error getting requested content."));
             return null;
         }
     }

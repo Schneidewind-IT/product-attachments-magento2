@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * File: Preview.php
@@ -63,10 +63,9 @@ class Preview extends Action
         $attachment = $this->loadAttachmentById((int) $attachmentId);
         if ($attachment instanceof AttachmentInterface) {
             try {
-                $this->downloadProcessor->processDownload($attachment);
-                return $this->_response;
+                return $this->downloadProcessor->processDownload($attachment);
             } catch (FileSystemException $exception) {
-                $this->messageManager->addErrorMessage(__('Sorry, there was an error getting requested content.'));
+                $this->messageManager->addErrorMessage(__("Sorry, there was an error getting requested content."));
             }
         }
 
@@ -78,12 +77,12 @@ class Preview extends Action
      * @param int $id
      * @return AttachmentInterface | null
      */
-    private function loadAttachmentById(int $id) : ?AttachmentInterface
+    private function loadAttachmentById(int $id): ?AttachmentInterface
     {
         try {
             return $this->attachmentRepository->getById($id);
         } catch (NoSuchEntityException $e) {
-            $this->messageManager->addErrorMessage(__('Attachment not found.'));
+            $this->messageManager->addErrorMessage(__("Attachment not found."));
             return null;
         }
     }
