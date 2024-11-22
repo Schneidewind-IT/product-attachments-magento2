@@ -267,7 +267,7 @@ class Attachments extends AbstractModifier
         $attachmentUploader['arguments']['data']['config'] = [
             'formElement' => 'fileUploader',
             'componentType' => 'fileUploader',
-            'component' => 'LizardMedia_ProductAttachment/js/components/file-uploader',
+            'component' => 'Magento_Downloadable/js/components/file-uploader',
             'elementTmpl' => 'Magento_Downloadable/components/file-uploader',
             'fileInputName' => 'attachments',
             'uploaderConfig' => [
